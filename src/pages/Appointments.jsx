@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import { AppContext } from "../context/Appcontext";
 import { assets } from "../assets/assets_frontend/assets";
 
+import RelatedDoctors from "../components/RelatedDoctors";
+
 const Appointments = () => {
   const { docId } = useParams();
   const { doctors, currencySymbol } = useContext(AppContext);
@@ -145,15 +147,30 @@ const Appointments = () => {
               ))}
           </div>
           <div className="flex items-center gap-3 w-full overflow-x-scroll mt-4">
-  {docSlot[slotIndex]?.slots.map((item, index) => (
-    <p key={index} className={`text-sm font-light flex-shrink-0 px-5 py-2 rounded-full cursor-pointer `}>
-      
-      {item.time.toLowerCase()}
-    </p>
-  ))}
-</div>
-
+            {docSlot[slotIndex]?.slots.map((item, index) => (
+              <p
+              onClick={() => setSlotTime(item.time)}
+                key={index}
+                className={`text-sm font-light flex-shrink-0 px-5 py-2 rounded-full cursor-pointer ${
+                  item.time === slotTime
+                    ? "bg-primary text-white "
+                    : "text-gray-400 border border-gray-300"
+                } `}
+              >
+                {item.time.toLowerCase()}
+              </p>
+            ))}
+          </div>
+          
+            <button className="bg-primary text-white py-3 text-sm my-6 px-14 rounded-full">
+              Book Appointment
+            </button>
+ 
         </div>
+
+{/* RelatedDoctors */}
+
+        <RelatedDoctors docId={docId} speciality={docInfo.speciality}/>
       </div>
     )
   );
